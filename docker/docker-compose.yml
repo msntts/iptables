@@ -2,7 +2,9 @@ version: '3'
 
 services:
   iptables-web-dev:
-    image: node:16
+    image: iptables-web-dev:1.0
+    build:
+      context: ./
     container_name: iptables-web-dev
     tty: true
     volumes:
