@@ -2,6 +2,7 @@ var proc = require('child_process');
 var fs = require("fs");
 var url = require("url");
 var querystring = require("querystring");
+var pam = require('authenticate-pam');
 
 module.exports = {
 	
@@ -11,8 +12,6 @@ module.exports = {
 	settingsDir: "/etc/iptables/config.json",
 	_settings: {
 		savePath: "/etc/iptables/rules.save",
-		user: "admin",
-		pass: "",
 		theme: "Silver",
 		themes: []
 	},
@@ -205,16 +204,17 @@ module.exports = {
 				var login = post['login'];
 				var pass = post['pass'];
 
-				var auth = login === module.exports._settings.user && pass === module.exports._settings.pass;
-				if(auth) {
-					var ip = req.connection.remoteAddress;
-					module.exports.authUsers[ip] = 1;
-					res.writeHead(301, {"Location": "/"});
-					res.end();
-				}
-				else {
-					res.end("Error!");
-				}
+				pam.authenticate(login, pass, function(err) {
+					if(err) {
+						res.end(err);
+					}
+					else {
+						var ip = req.connection.remoteAddress;
+						module.exports.authUsers[ip] = 1;
+						res.writeHead(301, {"Location": "/"});
+						res.end();
+					}
+				  });
 			});
 		}
 		else {
