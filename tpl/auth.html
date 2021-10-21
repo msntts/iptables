@@ -1,17 +1,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
-	<head>
-		<title>Login</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<link rel="stylesheet" href="theme/Silver.css" type="text/css"/>
-	</head>
-	<body>
+
+<head>
+	<title>Login</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="theme/primer.css" type="text/css" />
+</head>
+
+<body>
+	<div class="Box Box--spacious col-6 mx-auto container-sm mt-8">
 		<form method="post" action="/login">
-			<table class="authform">
-				<tr><td>Login:</td><td><input type="text" name="login"/></td></tr>
-				<tr><td>Password:</td><td><input type="password" name="pass"/></td></tr>
-				<tr><td colspan="2"><input type="submit" value="LogIn"/></td></tr>
-			</table>
+			<div class="Box-body">
+				<h3 class="f1-light text-center">
+					🦄Sign in iptables🦄
+				</h3>
+				<div>
+					<label>Username</label>
+					<input class="form-control input-lg input-block" type="text" name="login" />
+				</div>
+				<div>
+					<label>Password</label>
+					<input class="form-control input-lg input-block" type="password" name="pass" />
+				</div>
+				<br/>
+				<div><input class="btn btn-primary btn-block" type="submit" value="Sign in" /></div>
+			</div>
 		</form>
-	</body>
+	</div>
+</body>
+
 </html>
