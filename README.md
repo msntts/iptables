@@ -7,6 +7,24 @@ iptables WEB gui
 In first time you need to Download and install Node.js
 
 ### Howto use ###
+* Install PAM libraries
+
+  - Centos and RHEL
+    ```sh
+    yum install pam-devel
+    ```
+  - Debian/Ubuntu
+    ```sh
+    apt-get install libpam0g-dev
+    ```
+  - debian6/maverick/natty
+    ```sh
+    apt-get install libreadline5-dev
+    ```
+  - oneiric (and any newer, eg. Debian 7 or Ubuntu 12.04)
+    ```sh
+    apt-get install libreadline-gplv2-dev
+    ```
 
 * Clone repository:
 ```bash
