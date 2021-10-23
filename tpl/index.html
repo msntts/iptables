@@ -7,6 +7,8 @@
 
 		<link rel="stylesheet" href="jquery-ui.css" type="text/css"/>
 		<link rel="stylesheet" id="theme" href="theme/Silver.css" type="text/css"/>
+		<link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet"/>
+		<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet"/>
 
 		<script type="text/javascript" src="jquery.min.js"></script> 
 		<script type="text/javascript" src="jquery-ui.min.js"></script> 
@@ -21,6 +23,24 @@
 
 		<div class="error"></div>
 		<div class="info"></div>
+
+		<div class="Header">
+			<div class="Header-item f2">
+				<a class="Header-link" href="/">🦄iptables🦄</a>
+			</div>
+			<div class="Header-item">
+				<a class="Header-link" onclick="tools.settingsDlg();" title="Show settings dialog"><i class="fas fa-cog"></i> Settings</a>
+			</div>
+			<div class="Header-item">
+				<a class="Header-link" onclick="tools.showTCPDump();" title="Show TCP dump console"><i class="fas fa-ethernet"></i> TcpDump</a>
+			</div>
+			<div class="Header-item">
+				<a class="Header-link" onclick="tools.showLogs();" title="Show system logs"><i class="fas fa-history"></i> SysLogs</a>
+			</div>
+			<div class="Header-item">
+				<a class="Header-link" href="/logout" id="logout"><i class="fas fa-sign-out-alt"></i> Sign-out</a>
+			</div>
+		</div>
 
 		<div class="content">
 			<ul class="tabs mainmenu">
@@ -80,12 +100,8 @@
 			</table>
 
 			<div class="tools">
-				<a class="button" href="/logout" id="logout" style="display: none;">Logout <img class="icon" src="/img/logout.png"/></a>
-				<a class="button" onclick="tools.showTCPDump();" title="Show TCP dump console">TcpDump <img class="icon" src="/img/tcpdump.png"/></a>
-				<a class="button" onclick="tools.showLogs();" title="Show system logs">SysLogs <img class="icon" src="/img/logs.png"/></a>
 				<a class="button" onclick="tools.load();" title="Load rules from file">Load <img class="icon" src="/img/load.png"/></a>
 				<a class="button" onclick="tools.save();" title="Save rules into file">Save <img class="icon" src="/img/save.png"/></a>
-				<a class="button" onclick="tools.settingsDlg();" title="Show settings dialog">Settings <img class="icon" src="/img/settings.png"/></a>
 				<a class="button" onclick="rules.resetCounters();" title="Reset counters for current chain">Reset <img class="icon" src="/img/reset.png"/></a>
 			</div>
 
