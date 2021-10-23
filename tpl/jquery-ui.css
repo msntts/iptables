@@ -224,7 +224,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  *
  * http://docs.jquery.com/UI/Dialog#theming
  */
-.ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; box-shadow: 5px 5px 10px #000000; }
+.ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; background-color:white; }
 .ui-dialog .ui-dialog-titlebar { padding: .5em 1em .3em; position: relative;  }
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .2em 0; } 
 .ui-dialog .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
@@ -331,52 +331,25 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 /* Component containers
 ----------------------------------*/
-.ui-widget { font-family: Verdana,Arial,sans-serif/*{ffDefault}*/; font-size: 1.1em/*{fsDefault}*/; }
+.ui-widget { font-size: 1.1em/*{fsDefault}*/; }
 .ui-widget .ui-widget { font-size: 1em; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif/*{ffDefault}*/; font-size: 1em; }
-.ui-widget-content { border: 1px solid #aaaaaa/*{borderColorContent}*/; background: #222/*{bgColorContent}*/; color: white/*{fcContent}*/; }
-.ui-widget-content a { color: white/*{fcContent}*/; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-size: 1em; }
+.ui-widget-content { border: 1px solid #aaaaaa/*{borderColorContent}*/;}
 /*.ui-widget-header { border: 1px solid #aaaaaa{borderColorHeader}; background: #cccccc{bgColorHeader} url(img/ui-bg_highlight-soft_75_cccccc_1x100.png){bgImgUrlHeader} 50%{bgHeaderXPos} 50%{bgHeaderYPos} repeat-x{bgHeaderRepeat}; color: black{fcHeader}; font-weight: bold; }*/
 .ui-widget-header {
 	font-weight: bold;
-	background: -webkit-gradient(linear, 0 0, 0 100%, from(#555), to(#333));
-	background: -moz-linear-gradient(top,  #555,  #333);
-	background-image: -o-linear-gradient(top,  #555,  #333);
-	background: -ms-linear-gradient(top,  #555,  #333);
 }
-.ui-widget-header a { color: white/*{fcHeader}*/; }
 
 /* Interaction states
 ----------------------------------*/
 /*.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3{borderColorDefault}; background: #e6e6e6{bgColorDefault} url(img/ui-bg_glass_75_e6e6e6_1x400.png){bgImgUrlDefault} 50%{bgDefaultXPos} 50%{bgDefaultYPos} repeat-x{bgDefaultRepeat}; font-weight: normal{fwDefault}; color: #555555{fcDefault}; }*/
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-	border: 1px solid gray; color: white; text-decoration: none; float:right; cursor: pointer; border-radius: 5px;
-			background: -webkit-gradient(linear, 0 0, 0 100%, from(#333), to(#222));
-			background: -moz-linear-gradient(top,  #333,  #222);
-			background-image: -o-linear-gradient(top,  #333,  #222);
-			background: -ms-linear-gradient(top,  #333,  #222);
-			border: 1px solid #444;
-			box-shadow: 0 0 5px #000;
+	border: 1px solid gray; text-decoration: none; float:right; cursor: pointer; border-radius: 5px;
 }
-.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #555555/*{fcDefault}*/; text-decoration: none; }
-/*.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #999999{borderColorHover}; background: #dadada{bgColorHover} url(img/ui-bg_glass_75_dadada_1x400.png){bgImgUrlHover} 50%{bgHoverXPos} 50%{bgHoverYPos} repeat-x{bgHoverRepeat}; font-weight: normal{fwDefault}; color: #212121{fcHover}; }*/
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
-	background: -webkit-gradient(linear, 0 0, 0 100%, from(#444), to(#333));
-	background: -moz-linear-gradient(top,  #444,  #333);
-	background-image: -o-linear-gradient(top,  #444,  #333);
-	background: -ms-linear-gradient(top,  #444,  #333);
-	border: 1px solid #444;
-	box-shadow: 0 0 5px #000;
-}
-.ui-state-hover a, .ui-state-hover a:hover { color: #212121/*{fcHover}*/; text-decoration: none; }
+.ui-state-hover a, .ui-state-hover a:hover { text-decoration: none; }
 /*.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa{borderColorActive}; background: #ffffff{bgColorActive} url(img/ui-bg_glass_65_ffffff_1x400.png){bgImgUrlActive} 50%{bgActiveXPos} 50%{bgActiveYPos} repeat-x{bgActiveRepeat}; font-weight: normal{fwDefault}; color: #212121{fcActive}; }*/
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
-	background: -webkit-gradient(linear, 0 0, 0 100%, from(#444), to(#333));
-	background: -moz-linear-gradient(top,  #444,  #333);
-	background-image: -o-linear-gradient(top,  #444,  #333);
-	background: -ms-linear-gradient(top,  #444,  #333);
 	border: 1px solid #444;
-	box-shadow: 0 0 5px #000;
 }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121/*{fcActive}*/; text-decoration: none; }
 .ui-widget :active { outline: none; }
@@ -599,4 +572,3 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 /* Overlays */
 .ui-widget-overlay { background: #aaaaaa/*{bgColorOverlay}*/ url(img/ui-bg_flat_0_aaaaaa_40x100.png)/*{bgImgUrlOverlay}*/ 50%/*{bgOverlayXPos}*/ 50%/*{bgOverlayYPos}*/ repeat-x/*{bgOverlayRepeat}*/; opacity: .3;filter:Alpha(Opacity=30)/*{opacityOverlay}*/; }
-.ui-widget-shadow { margin: -8px/*{offsetTopShadow}*/ 0 0 -8px/*{offsetLeftShadow}*/; padding: 8px/*{thicknessShadow}*/; background: #aaaaaa/*{bgColorShadow}*/ url(img/ui-bg_flat_0_aaaaaa_40x100.png)/*{bgImgUrlShadow}*/ 50%/*{bgShadowXPos}*/ 50%/*{bgShadowYPos}*/ repeat-x/*{bgShadowRepeat}*/; opacity: .3;filter:Alpha(Opacity=30)/*{opacityShadow}*/; -moz-border-radius: 8px/*{cornerRadiusShadow}*/; -webkit-border-radius: 8px/*{cornerRadiusShadow}*/; border-radius: 8px/*{cornerRadiusShadow}*/; }

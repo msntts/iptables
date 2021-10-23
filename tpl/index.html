@@ -6,7 +6,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" href="jquery-ui.css" type="text/css"/>
-		<link rel="stylesheet" id="theme" href="theme/Silver.css" type="text/css"/>
+
+		<link rel="stylesheet" id="theme" href="theme/common.css" type="text/css"/>
 		<link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet"/>
 		<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet"/>
 
@@ -106,34 +107,35 @@
 			</div>
 
 			<div class="settings">
-				<div id="user-select-category">
-					<div class="item" id="page1" onclick="tools.selectPage(1);"><img class="item-icon" src="/img/settings.png"/> Global</div>
-					<div class="item" id="page2" onclick="tools.selectPage(2)"><img class="item-icon" src="/img/lan.png"/> Networks map</div>
-					<div class="item" id="page3" onclick="tools.selectPage(3)"><img class="item-icon" src="/img/portmap.png"/> Ports map</div>
+				<div class="tabnav">
+					<nav id="user-select-category" class="tabnav-tabs">
+						<a id="page1" onclick="tools.selectPage(1);" class="tabnav-tab" aria-current="page"><i class="fas fa-cog"></i> Global</a>
+						<a id="page2" onclick="tools.selectPage(2);" class="tabnav-tab"><i class="fas fa-network-wired"></i> Networks map</a>
+						<a id="page3" onclick="tools.selectPage(3);" class="tabnav-tab"><i class="fas fa-route"></i> Ports map</a>
+					</nav>
 				</div>
-				<div id="settings-page1" style="display: block;">
-					<table width="100%">
-						<tr><td colspan="2" class="splitter">Paths</td></tr>
-						<tr>
-							<td>Save rule path</td><td><input class="param" type="text" id="savePath"/></td>
-						</tr>
-						<tr><td colspan="2" class="splitter">Appearance</td></tr>
-						<tr>
-							<td>Theme</td><td><select id="themeSelector"></select></td>
-						</tr>
-					</table>
+				<div id="settings-page1">
+					<label>Save rule path</label><input class="param form-control input-lg input-block" type="text" id="savePath"/>
 				</div>
 				<div id="settings-page2" style="display: none;">
 					<table width="100%" id="lans" class="main">
-						<tr><th class="cmd">Network</th><th class="rule">Alias</th><th class="cmd"></th></tr>
+						<tr>
+							<th class="cmd col-2">Network</th>
+							<th class="rule col-9">Alias</th>
+							<th class="cmd col-1"></th>
+						</tr>
 					</table>
-					<div class="tools"><a class="button" onclick="tools.addLan();">Add lan</a></div>
+					<div class="tools text-right mt-3"><button class="btn btn-primary" type="button" onclick="tools.addLan();">Add lan</button></div>
 				</div>
 				<div id="settings-page3" style="display: none;">
 					<table width="100%" id="ports" class="main">
-						<tr><th class="cmd">Port</th><th class="rule">Alias</th><th class="cmd"></th></tr>
+						<tr>
+							<th class="cmd col-2">Port</th>
+							<th class="rule col-9">Alias</th>
+							<th class="cmd col-1"></th>
+						</tr>
 					</table>
-					<div class="tools"><a class="button" onclick="tools.addPort();">Add port</a></div>
+					<div class="tools text-right mt-3"><button class="btn btn-primary" type="button" onclick="tools.addPort();">Add port</button></div>
 				</div>
 			</div>
 			

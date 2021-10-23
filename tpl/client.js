@@ -384,8 +384,10 @@ var tools = {
         $("#settings-page" + index).show();
 		if(tools.oldIndex !== -1) {
 			$("#page" + tools.oldIndex).removeClass("itemselected").addClass("item");
+			$("#page" + tools.oldIndex).removeAttr("aria-current");
 		}
 		$("#page" + index).removeClass("item").addClass("itemselected");
+		$("#page" + index).attr("aria-current", "page");
 		tools.oldIndex = index;
     },
     
