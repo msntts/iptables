@@ -5,9 +5,7 @@ var querystring = require("querystring");
 var pam = require('authenticate-pam');
 
 module.exports = {
-	
-	auth: false,
-	authUsers: {},
+	authUsers: {}, // last authentication time is stored
 	
 	settingsDir: "/etc/iptables/config.json",
 	_settings: {
@@ -28,7 +26,7 @@ module.exports = {
 							module.exports._settings[key] = s[key];
 						}
 					}
-					module.exports.auth = module.exports._settings.pass === "";
+
 					console.log("Load settings from " + module.exports.settingsDir);
 				});
 			}
@@ -210,7 +208,7 @@ module.exports = {
 					}
 					else {
 						var ip = req.connection.remoteAddress;
-						module.exports.authUsers[ip] = 1;
+						module.exports.authUsers[ip] = Date.now();
 						res.writeHead(301, {"Location": "/"});
 						res.end();
 					}
@@ -225,12 +223,17 @@ module.exports = {
 	
 	isAuth: function(req) {
 		var ip = req.connection.remoteAddress;
-		return module.exports.auth || module.exports.authUsers[ip];
+
+		// authentication token is expired when spend 1 hour from last sign in
+		var elapsedTime = Date.now() - module.exports.authUsers[ip]; // milli seconds
+		var period = (60 * 60 * 1000);
+
+		return (module.exports.authUsers[ip] !== null) && (period > elapsedTime);
 	},
-	
+
 	logout: function(req, res) {
 		var ip = req.connection.remoteAddress;
-		module.exports.authUsers[ip] = 0;
+		module.exports.authUsers[ip] = null;
 		res.writeHead(301, {"Location": "auth.html", "Cache-Control": "no-cache"});
 		res.end();
 	},
