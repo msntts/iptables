@@ -1,4 +1,6 @@
-iptables WEB gui
+### iptables WEB gui ###
+this repository is forked from [puux/iptables](https://github.com/puux/iptables).  
+we use [Primer](https://primer.style/) to enhance web gui.
 
 ![ScreenShot](./ScreenShot.png)
 
