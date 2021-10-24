@@ -463,7 +463,7 @@ var tools = {
 	},
 
 	makeTextField: function(name, rule) {
-		var value = '<input type="text" id="' + name + '"';
+		var value = '<input type="text" class="form-control input-lg" id="' + name + '"';
 		if(rule.size) {
 			value += ' style="width: ' + rule.size + 'px;"';
 		}
@@ -486,7 +486,7 @@ var tools = {
 			var obj = tools.ruleBuilder[rule];
 			var value = "";
 			if(obj.list) {
-				value = '<select id="' + rule + '" onchange="tools.setAction(this);">';
+				value = '<select class="form-control" id="' + rule + '" onchange="tools.setAction(this);">';
 				for(var item in obj.list) {
 					value += '<option>' + obj.list[item] + '</option>';
 				}
@@ -498,7 +498,7 @@ var tools = {
 			else {
 				value = tools.makeTextField(rule, obj);
 			}
-			text += '<tr><td>' + obj.name + '</td><td>' + value + '</td></ts>';
+			text += '<tr><td class="p-2"><label>' + obj.name + '<label></td><td>' + value + '</td></ts>';
 		}
 		$("#ruleTable").html(text);
 		
