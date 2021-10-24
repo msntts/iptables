@@ -105,8 +105,15 @@
 				</ul>
 			</details>
 		</div>
-			<div class="chainpath" id="chainpath"></div>
-
+		<div class="clearfix pt-4 pb-2">
+			<div class="chainpath float-left" id="chainpath"></div>
+			
+			<div class="tools float-right">
+				<a class="button px-1 Link--primary color-fg-muted" onclick="tools.load();" title="Load rules from file"></i><i class="fas fa-file-import p-1"></i> Load</a>
+				<a class="button px-1 Link--primary color-fg-muted" onclick="tools.save();" title="Save rules into file"><i class="fas fa-save p-1"></i>Save</a>
+				<a class="button px-1 Link--primary color-fg-muted" onclick="rules.resetCounters();" title="Reset counters for current chain"><i class="fas fa-undo p-1"> </i>Reset</a>
+			</div>
+		</div>
 			<table class="main" rules="rows">
 				<thead class="text-left">
 					<tr>
@@ -121,12 +128,6 @@
 
 				</tbody>
 			</table>
-
-			<div class="tools">
-				<a class="button" onclick="tools.load();" title="Load rules from file">Load <img class="icon" src="/img/load.png"/></a>
-				<a class="button" onclick="tools.save();" title="Save rules into file">Save <img class="icon" src="/img/save.png"/></a>
-				<a class="button" onclick="rules.resetCounters();" title="Reset counters for current chain">Reset <img class="icon" src="/img/reset.png"/></a>
-			</div>
 
 			<div class="settings">
 				<div class="tabnav">
