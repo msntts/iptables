@@ -1,99 +1,117 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html data-color-mode="light" data-dark-theme="light">
 
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="jquery-ui.css" type="text/css"/>
+	<link rel="stylesheet" href="jquery-ui.css" type="text/css" />
 
-		<link rel="stylesheet" id="theme" href="theme/common.css" type="text/css"/>
-		<link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet"/>
-		<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet"/>
+	<link rel="stylesheet" id="theme" href="theme/common.css" type="text/css" />
+	<link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
+	<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet" />
 
-		<script type="text/javascript" src="jquery.min.js"></script> 
-		<script type="text/javascript" src="jquery-ui.min.js"></script> 
-		<script type="text/javascript" src="template.js"></script>
-		<script type="text/javascript" src="tools.js"></script>
-		<script type="text/javascript" src="client.js"></script>
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript" src="jquery-ui.min.js"></script>
+	<script type="text/javascript" src="template.js"></script>
+	<script type="text/javascript" src="tools.js"></script>
+	<script type="text/javascript" src="client.js"></script>
 
-		<title>iptables</title>
-	</head>
+	<title>iptables</title>
+</head>
 
-	<body>
+<body>
 
-		<div class="error flash flash-error"></div>
-		<div class="info flash"></div>
+	<div class="error flash flash-error"></div>
+	<div class="info flash"></div>
 
-		<div class="Header">
-			<div class="Header-item f2">
-				<a class="Header-link" href="/">🦄iptables🦄</a>
-			</div>
-			<div class="Header-item">
-				<a class="Header-link" onclick="tools.settingsDlg();" title="Show settings dialog"><i class="fas fa-cog"></i> Settings</a>
-			</div>
-			<div class="Header-item">
-				<a class="Header-link" onclick="tools.showTCPDump();" title="Show TCP dump console"><i class="fas fa-ethernet"></i> TcpDump</a>
-			</div>
-			<div class="Header-item Header-item--full">
-				<a class="Header-link" onclick="tools.showLogs();" title="Show system logs"><i class="fas fa-history"></i> SysLogs</a>
-			</div>
-			<div class="Header-item mr-0">
-				<a class="Header-link" href="/logout" id="logout"><i class="fas fa-sign-out-alt"></i> Sign-out</a>
-			</div>
+	<div class="Header">
+		<div class="Header-item f2">
+			<a class="Header-link" href="/">🦄iptables🦄</a>
 		</div>
+		<div class="Header-item">
+			<a class="Header-link" onclick="tools.settingsDlg();" title="Show settings dialog"><i
+					class="fas fa-cog"></i> Settings</a>
+		</div>
+		<div class="Header-item">
+			<a class="Header-link" onclick="tools.showTCPDump();" title="Show TCP dump console"><i
+					class="fas fa-ethernet"></i> TcpDump</a>
+		</div>
+		<div class="Header-item Header-item--full">
+			<a class="Header-link" onclick="tools.showLogs();" title="Show system logs"><i class="fas fa-history"></i>
+				SysLogs</a>
+		</div>
+		<div class="Header-item mr-0">
+			<a class="Header-link" href="/logout" id="logout"><i class="fas fa-sign-out-alt"></i> Sign-out</a>
+		</div>
+	</div>
 
-		<div class="content container-lg p-2 mx-auto">
-			<div class="container-md text-center">
+	<div class="content container-lg p-2 mx-auto">
+		<div class="container-md text-center">
 			<details class="dropdown details-reset details-overlay d-inline-block">
-				<summary onclick="rules.showListWithPath('input', 'filter');" class="color-fg-muted p-2 d-inline" aria-haspopup="true">
+				<summary onclick="rules.showListWithPath('input', 'filter');" class="color-fg-muted p-2 d-inline"
+					aria-haspopup="true">
 					INPUT
 					<div class="dropdown-caret"></div>
 				</summary>
 				<ul class="dropdown dropdown-menu dropdown-menu-se" style="display: none;">
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('input', 'filter');">filter</a></li>
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('input', 'mangle');">mangle</a></li>
+					<li><a class="item dropdown-item" onclick="rules.showListWithPath('input', 'filter');">filter</a>
+					</li>
+					<li><a class="item dropdown-item" onclick="rules.showListWithPath('input', 'mangle');">mangle</a>
+					</li>
 				</ul>
 			</details>
 			<details class="dropdown details-reset details-overlay d-inline-block">
-				<summary onclick="rules.showListWithPath('output', 'filter');;" class="color-fg-muted p-2 d-inline" aria-haspopup="true">
+				<summary onclick="rules.showListWithPath('output', 'filter');;" class="color-fg-muted p-2 d-inline"
+					aria-haspopup="true">
 					OUTPUT
 					<div class="dropdown-caret"></div>
 				</summary>
 				<ul class="dropdown dropdown-menu dropdown-menu-se" style="display: none;">
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('output', 'filter');">filter</a></li>
+					<li><a class="item dropdown-item" onclick="rules.showListWithPath('output', 'filter');">filter</a>
+					</li>
 					<li><a class="item dropdown-item" onclick="rules.showListWithPath('output', 'nat');">nat</a></li>
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('output', 'mangle');">mangle</a></li>
+					<li><a class="item dropdown-item" onclick="rules.showListWithPath('output', 'mangle');">mangle</a>
+					</li>
 				</ul>
 			</details>
 			<details class="dropdown details-reset details-overlay d-inline-block">
-				<summary onclick="rules.showListWithPath('forward', 'filter');;" class="color-fg-muted p-2 d-inline" aria-haspopup="true">
+				<summary onclick="rules.showListWithPath('forward', 'filter');;" class="color-fg-muted p-2 d-inline"
+					aria-haspopup="true">
 					FORWARD
 					<div class="dropdown-caret"></div>
 				</summary>
 				<ul class="dropdown dropdown-menu dropdown-menu-se" style="display: none;">
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('forward', 'filter');">filter</a></li>
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('forward', 'mangle');">mangle</a></li>
+					<li><a class="item dropdown-item" onclick="rules.showListWithPath('forward', 'filter');">filter</a>
+					</li>
+					<li><a class="item dropdown-item" onclick="rules.showListWithPath('forward', 'mangle');">mangle</a>
+					</li>
 				</ul>
 			</details>
 			<details class="dropdown details-reset details-overlay d-inline-block">
-				<summary onclick="rules.showListWithPath('prerouting', 'nat');;" class="color-fg-muted p-2 d-inline" aria-haspopup="true">
+				<summary onclick="rules.showListWithPath('prerouting', 'nat');;" class="color-fg-muted p-2 d-inline"
+					aria-haspopup="true">
 					PREROUTING
 					<div class="dropdown-caret"></div>
 				</summary>
 				<ul class="dropdown dropdown-menu dropdown-menu-se" style="display: none;">
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('prerouting', 'nat');">nat</a></li>
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('prerouting', 'mangle');">mangle</a></li>
+					<li><a class="item dropdown-item" onclick="rules.showListWithPath('prerouting', 'nat');">nat</a>
+					</li>
+					<li><a class="item dropdown-item"
+							onclick="rules.showListWithPath('prerouting', 'mangle');">mangle</a></li>
 				</ul>
 			</details>
 			<details class="dropdown details-reset details-overlay d-inline-block">
-				<summary onclick="rules.showListWithPath('postrouting', 'nat');;" class="color-fg-muted p-2 d-inline" aria-haspopup="true">
+				<summary onclick="rules.showListWithPath('postrouting', 'nat');;" class="color-fg-muted p-2 d-inline"
+					aria-haspopup="true">
 					POSTROUTING
 					<div class="dropdown-caret"></div>
 				</summary>
 				<ul class="dropdown dropdown-menu dropdown-menu-se" style="display: none;">
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('postrouting', 'nat');">nat</a></li>
-					<li><a class="item dropdown-item" onclick="rules.showListWithPath('postrouting', 'mangle');">mangle</a></li>
+					<li><a class="item dropdown-item" onclick="rules.showListWithPath('postrouting', 'nat');">nat</a>
+					</li>
+					<li><a class="item dropdown-item"
+							onclick="rules.showListWithPath('postrouting', 'mangle');">mangle</a></li>
 				</ul>
 			</details>
 			<details class="dropdown details-reset details-overlay d-inline-block">
@@ -107,113 +125,126 @@
 		</div>
 		<div class="clearfix pt-4 pb-2">
 			<div class="chainpath float-left" id="chainpath"></div>
-			
+
 			<div class="tools float-right">
-				<a class="button px-1 Link--primary color-fg-muted" onclick="tools.load();" title="Load rules from file"></i><i class="fas fa-file-import p-1"></i> Load</a>
-				<a class="button px-1 Link--primary color-fg-muted" onclick="tools.save();" title="Save rules into file"><i class="fas fa-save p-1"></i>Save</a>
-				<a class="button px-1 Link--primary color-fg-muted" onclick="rules.resetCounters();" title="Reset counters for current chain"><i class="fas fa-undo p-1"> </i>Reset</a>
+				<a class="button px-1 Link--primary color-fg-muted" onclick="tools.load();"
+					title="Load rules from file"></i><i class="fas fa-file-import p-1"></i> Load</a>
+				<a class="button px-1 Link--primary color-fg-muted" onclick="tools.save();"
+					title="Save rules into file"><i class="fas fa-save p-1"></i>Save</a>
+				<a class="button px-1 Link--primary color-fg-muted" onclick="rules.resetCounters();"
+					title="Reset counters for current chain"><i class="fas fa-undo p-1"> </i>Reset</a>
 			</div>
 		</div>
-			<table class="main" rules="rows">
-				<thead class="text-left">
+		<table class="main" rules="rows">
+			<thead class="text-left">
+				<tr>
+					<th class="id col-1">ID</th>
+					<th class="mon col-1">pkts</th>
+					<th class="mon col-1">bytes</th>
+					<th class="rule col-10" style="border-bottom: unset;">RULE</th>
+					<th class="cmd col-1">CMD</th>
+				</tr>
+			</thead>
+			<tbody id="main">
+
+			</tbody>
+		</table>
+
+		<div class="settings">
+			<div class="tabnav">
+				<nav id="user-select-category" class="tabnav-tabs">
+					<a id="page1" onclick="tools.selectPage(1);" class="tabnav-tab" aria-current="page"><i
+							class="fas fa-cog"></i> Global</a>
+					<a id="page2" onclick="tools.selectPage(2);" class="tabnav-tab"><i class="fas fa-network-wired"></i>
+						Networks map</a>
+					<a id="page3" onclick="tools.selectPage(3);" class="tabnav-tab"><i class="fas fa-route"></i> Ports
+						map</a>
+				</nav>
+			</div>
+			<div id="settings-page1">
+				<label>Save rule path</label><input class="param form-control input-lg input-block" type="text"
+					id="savePath" />
+			</div>
+			<div id="settings-page2" style="display: none;">
+				<table width="100%" id="lans" class="main">
 					<tr>
-						<th class="id col-1">ID</th>
-						<th class="mon col-1">pkts</th>
-						<th class="mon col-1">bytes</th>
-						<th class="rule col-10" style="border-bottom: unset;">RULE</th>
-						<th class="cmd col-1">CMD</th>
+						<th class="cmd col-2">Network</th>
+						<th class="rule col-9">Alias</th>
+						<th class="cmd col-1"></th>
 					</tr>
-				</thead>
-				<tbody id="main">
-
-				</tbody>
-			</table>
-
-			<div class="settings">
-				<div class="tabnav">
-					<nav id="user-select-category" class="tabnav-tabs">
-						<a id="page1" onclick="tools.selectPage(1);" class="tabnav-tab" aria-current="page"><i class="fas fa-cog"></i> Global</a>
-						<a id="page2" onclick="tools.selectPage(2);" class="tabnav-tab"><i class="fas fa-network-wired"></i> Networks map</a>
-						<a id="page3" onclick="tools.selectPage(3);" class="tabnav-tab"><i class="fas fa-route"></i> Ports map</a>
-					</nav>
-				</div>
-				<div id="settings-page1">
-					<label>Save rule path</label><input class="param form-control input-lg input-block" type="text" id="savePath"/>
-				</div>
-				<div id="settings-page2" style="display: none;">
-					<table width="100%" id="lans" class="main">
-						<tr>
-							<th class="cmd col-2">Network</th>
-							<th class="rule col-9">Alias</th>
-							<th class="cmd col-1"></th>
-						</tr>
-					</table>
-					<div class="tools text-right mt-3"><button class="btn btn-primary" type="button" onclick="tools.addLan();">Add lan</button></div>
-				</div>
-				<div id="settings-page3" style="display: none;">
-					<table width="100%" id="ports" class="main">
-						<tr>
-							<th class="cmd col-2">Port</th>
-							<th class="rule col-9">Alias</th>
-							<th class="cmd col-1"></th>
-						</tr>
-					</table>
-					<div class="tools text-right mt-3"><button class="btn btn-primary" type="button" onclick="tools.addPort();">Add port</button></div>
-				</div>
-			</div>
-			
-			<div class="addchain">
-				<form>
-					<div class="col-4">
-						<label>Name</label>
-						<input type="text" id="chainname" class="form-control"/>
-					</div>
-					<div class="col-4 mt-2">
-						<label>Table</label>
-						<select id="chaintable" class="form-control"><option value="filter">filter</option><option value="nat">nat</option><option value="mangle">mangle</option></select>
-					</div>
-				</form>
-			</div>
-			<div class="dialog" id="makeRule">
-				<table class="" id="ruleTable">
 				</table>
+				<div class="tools text-right mt-3"><button class="btn btn-primary" type="button"
+						onclick="tools.addLan();">Add lan</button></div>
 			</div>
-			<div class="dialog" id="syslog">
-				<div id="logs" class="logpanel">
-					
-				</div>
-			</div>
-			<div class="dialog" id="tcpdump">
-				<div class="content">
-					<div class="params d-flex">
-						<div class="col-2 p-1">
-							<label>Dev</label>
-							<input id="eth" class="form-control input-block" type="text" placeholder="eth0"/>
-						</div>
-						<div class="col-2 p-1">
-							<label>Src</label>
-							<input id="src" class="form-control input-block" type="text" placeholder="127.0.0.1"/>
-						</div>
-						<div class="col-2 p-1">
-							<label>Dest</label>
-							<input id="dst" class="form-control input-block" type="text" placeholder="127.0.0.1">
-						</div>
-						<div class="col-2 p-1">
-							<label>Port</label>
-							<input id="port" class="form-control input-block" type="text" placeholder="80">
-						</div>
-						<div class="flex-self-end col-4 p-2">
-							<button class="btn btn-primary" type="button" onclick="tools.dumpParams();">Apply</button>
-							<button class="btn btn-danger" type="button" onclick='$("#dump").html("");'>Clear</button>
-						</div>
-					</div>
-					<div id="dump" class="logpanel">
-						
-					</div>
-				</div>
+			<div id="settings-page3" style="display: none;">
+				<table width="100%" id="ports" class="main">
+					<tr>
+						<th class="cmd col-2">Port</th>
+						<th class="rule col-9">Alias</th>
+						<th class="cmd col-1"></th>
+					</tr>
+				</table>
+				<div class="tools text-right mt-3"><button class="btn btn-primary" type="button"
+						onclick="tools.addPort();">Add port</button></div>
 			</div>
 		</div>
 
-	</body>
+		<div class="addchain">
+			<form>
+				<div class="col-4">
+					<label>Name</label>
+					<input type="text" id="chainname" class="form-control" />
+				</div>
+				<div class="col-4 mt-2">
+					<label>Table</label>
+					<select id="chaintable" class="form-control">
+						<option value="filter">filter</option>
+						<option value="nat">nat</option>
+						<option value="mangle">mangle</option>
+					</select>
+				</div>
+			</form>
+		</div>
+		<div class="dialog" id="makeRule">
+			<table class="" id="ruleTable">
+			</table>
+		</div>
+		<div class="dialog" id="syslog">
+			<div id="logs" class="logpanel">
+
+			</div>
+		</div>
+		<div class="dialog" id="tcpdump">
+			<div class="content">
+				<div class="params d-flex">
+					<div class="col-2 p-1">
+						<label>Dev</label>
+						<input id="eth" class="form-control input-block" type="text" placeholder="eth0" />
+					</div>
+					<div class="col-2 p-1">
+						<label>Src</label>
+						<input id="src" class="form-control input-block" type="text" placeholder="127.0.0.1" />
+					</div>
+					<div class="col-2 p-1">
+						<label>Dest</label>
+						<input id="dst" class="form-control input-block" type="text" placeholder="127.0.0.1">
+					</div>
+					<div class="col-2 p-1">
+						<label>Port</label>
+						<input id="port" class="form-control input-block" type="text" placeholder="80">
+					</div>
+					<div class="flex-self-end col-4 p-2">
+						<button class="btn btn-primary" type="button" onclick="tools.dumpParams();">Apply</button>
+						<button class="btn btn-danger" type="button" onclick='$("#dump").html("");'>Clear</button>
+					</div>
+				</div>
+				<div id="dump" class="logpanel">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
 
 </html>

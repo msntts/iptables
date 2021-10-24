@@ -3,22 +3,22 @@ var table = "";
 var webSocket;
 var chainPath = [];
 
-$(document).ready(function(){
+$(document).ready(function () {
 	rules.showListWithPath("input", "filter");
-	
-	$.get("/chainlist", function(data) {
+
+	$.get("/chainlist", function (data) {
 		var arr = JSON.parse(data);
 		$("#customchains").html("");
-		for(var i = 0; i < arr.length; i++) {
+		for (var i = 0; i < arr.length; i++) {
 			var item = arr[i];
 			var index = item.indexOf(" ");
 			var rName = item.substr(0, index);
-			var rTable = item.substr(index+2, item.length - index - 3);
+			var rTable = item.substr(index + 2, item.length - index - 3);
 			$("#customchains").append(window.tpl.customChain(rName, rTable));
 		}
 		$("#customchains").append(window.tpl.customChainAddNew);
 	});
-	
+
 	setInterval(rules.monitor, 1000);
 	tools.selectPage(1);
 });
@@ -30,7 +30,7 @@ $(function () {
 			timeout: 100,
 			over: function () {
 				var obj = this;
-				id = setTimeout(function() {
+				id = setTimeout(function () {
 					$('.dropdown:eq(0)', obj).slideDown(100);
 				}, 500);
 			},
@@ -41,38 +41,38 @@ $(function () {
 		});
 	});
 
-	$('.dropdown').each(function(i, it){
+	$('.dropdown').each(function (i, it) {
 		var list = $(it).find('li');
-		if(list.length > 12){
+		if (list.length > 12) {
 			list.parent().addClass('large');
-			  list.each(function(index, item){
-				  if(index >= list.length / 2){
-					  $(item).addClass('second');
-				  } 
-				  else{
-					  $(item).addClass('first');
-				  }
-			  });
-			  $(it).find('.first').wrapAll('<div class="first-row"/>');
-			  $(it).find('.second').wrapAll('<div class="second-row"/>');
+			list.each(function (index, item) {
+				if (index >= list.length / 2) {
+					$(item).addClass('second');
+				}
+				else {
+					$(item).addClass('first');
+				}
+			});
+			$(it).find('.first').wrapAll('<div class="first-row"/>');
+			$(it).find('.second').wrapAll('<div class="second-row"/>');
 		}
 	});
 });
 
 var parser = {
-	
+
 	parseChannels: function (data) {
-		
+
 		this.editRuleRow = null;
-		
+
 		var arr = JSON.parse(data);
 
 		$("#main").html('');
 
 		var index = 0;
-		for(var line in arr) {
+		for (var line in arr) {
 			var val = arr[line];
-			if(val) {
+			if (val) {
 				$("#main").append(parser.makeRuleTpl(index, val));
 			}
 			index++;
@@ -80,41 +80,41 @@ var parser = {
 
 		$("#main").append('<tr class="newrulerow"><td colspan="3" class="text-right pr-2 py-2"><label>New rule</label></td><td colspan="1" class="py-2"><form onsubmit="return rules.insert();"><input type="text" id="rule" class="ruleeditor form-control input-block"/></form></td><td class="text-center"><a href="#" class="Link--primary color-fg-muted" onclick="return tools.addDialogRule();" title="Add rule"><i class="fas fa-plus"></i></a></td></tr>');
 	},
-	
+
 	makeRuleTpl: function (index, text) {
 		var ntext = this.makeRuleText(text);
 		return tpl.ruleRow(index, ntext);
 	},
-	
-	FIN_RULES: {DROP:1, ACCEPT:1, LOG:1, TCPMSS:1, RETURN:1, DNAT:1, SNAT:1, MASQUERADE:1, CONNMARK:1, TOS:1, TTL:1},
+
+	FIN_RULES: { DROP: 1, ACCEPT: 1, LOG: 1, TCPMSS: 1, RETURN: 1, DNAT: 1, SNAT: 1, MASQUERADE: 1, CONNMARK: 1, TOS: 1, TTL: 1 },
 	makeRuleText: function (text) {
 		text = text
 			// strings
-			.replace(/(--log-prefix) "(.*)"/g, function(str, pref, comment){
+			.replace(/(--log-prefix) "(.*)"/g, function (str, pref, comment) {
 				return pref + ' <span class="ipt-comment">"' + comment + "\"</span>";
 			})
 			// comment
-			.replace(/(-m comment --comment) "(.*)" (.*)/g, function(str, param, comment, other){
+			.replace(/(-m comment --comment) "(.*)" (.*)/g, function (str, param, comment, other) {
 				return other + ' <span class="ipt-comment">//' + comment + "</span>";
 			})
-			.replace(/(-m comment --comment) ([\w]+) (.*)/g, function(str, param, comment, other){
+			.replace(/(-m comment --comment) ([\w]+) (.*)/g, function (str, param, comment, other) {
 				return other + ' <span class="ipt-comment">//' + comment + "</span>";
 			})
 			// network interfaces
-			.replace(/(-[o|i]) ([a-z0-9]+)/g, function(str, dir, int){
+			.replace(/(-[o|i]) ([a-z0-9]+)/g, function (str, dir, int) {
 				return dir + ' <b title="' + int + '">' + (window._settings.LANS[int] || int) + '</b>';
 			})
 			// networks
 			.replace(/(\-d|\-s|\-\-to\-destination) ([0-9\.\/\:]+)/g, '$1 <span class="ipt-net">$2</span>')
 			// ports
-			.replace(/(--dport|--sport) ([0-9\.\/\:]+)/g, function(str, param, port){
+			.replace(/(--dport|--sport) ([0-9\.\/\:]+)/g, function (str, param, port) {
 				return param + ' <span class="ipt-port" title="' + port + '">' + (window._settings.PORTS[port] || port) + '</span>';
 			})
 			// rule chain
 			.replace(/-j (ACCEPT|DROP)($| )/g, '-j <span class="ipt-$1">$1</span>$2')
-			.replace(/-j ([A-Z\_0-9]+)/g, function(str, name) {
+			.replace(/-j ([A-Z\_0-9]+)/g, function (str, name) {
 				var lname = name.toLowerCase();
-				if(parser.FIN_RULES[name]) {
+				if (parser.FIN_RULES[name]) {
 					return "-j " + name;
 				}
 				return '-j <a class="ipt-channel" href="javascript: rules.showListWithPath(\'' + lname + '\', \'' + table + '\', true);">' + name + "</a>";
@@ -122,29 +122,29 @@ var parser = {
 
 		return text;
 	},
-	
+
 	editRuleRow: null,
 	editRuleRowText: "",
 	editRuleRowIndex: "",
 	editRuleAction: function (key) {
-		if(key === 27) {
-			if(this.editRuleRow) {
+		if (key === 27) {
+			if (this.editRuleRow) {
 				this.editRuleRow.html(this.editRuleRowText);
 				this.endEditRule();
 			}
 		}
-		else if(key === 13) {
+		else if (key === 13) {
 			this.editRuleRow.html(this.makeRuleText(text = this.editRuleRow.children().val()));
 			this.endEditRule();
-			text = text.replace("-A " + channel.toUpperCase(), "-R " + channel.toUpperCase() + " " + this.editRuleRowIndex); 
+			text = text.replace("-A " + channel.toUpperCase(), "-R " + channel.toUpperCase() + " " + this.editRuleRowIndex);
 			rules.insertText(text);
 		}
 	},
 
 	editRule: function (index) {
 		var rule = $("#rule" + index);
-		if(this.editRuleRow === null || rule.attr("id") !== this.editRuleRow.attr("id")) {
-			if(this.editRuleRow) {
+		if (this.editRuleRow === null || rule.attr("id") !== this.editRuleRow.attr("id")) {
+			if (this.editRuleRow) {
 				this.editRuleRow.html(this.editRuleRowText);
 			}
 			var value = rule.text();
@@ -156,11 +156,11 @@ var parser = {
 			this.editRuleRowIndex = index;
 		}
 	},
-    
-    endEditRule: function() {
-        this.editRuleRow = null;
-    }
-	
+
+	endEditRule: function () {
+		this.editRuleRow = null;
+	}
+
 };
 
 var rules = {
@@ -169,21 +169,21 @@ var rules = {
 		table = chainTable;
 
 		$(".itemselect").removeClass("itemselect").addClass("item");
-		$(".item").each(function(index, obj) {
-			if($(obj).text() === name.toUpperCase()) {
+		$(".item").each(function (index, obj) {
+			if ($(obj).text() === name.toUpperCase()) {
 				$(obj).removeClass("item").addClass("itemselect");
 			}
 		});
 
-        parser.endEditRule();
+		parser.endEditRule();
 		$.get("channel?c=" + channel + "&t=" + table, parser.parseChannels);
 	},
 
 	showListWithPath: function (name, chainTable, addPath) {
 		rules.showList(name, chainTable);
 
-		var obj = {chain: name.toUpperCase(), table: chainTable};
-		if(addPath) {
+		var obj = { chain: name.toUpperCase(), table: chainTable };
+		if (addPath) {
 			chainPath.push(obj);
 		}
 		else {
@@ -193,10 +193,10 @@ var rules = {
 		rules.updatePath();
 	},
 
-	updatePath: function() {
+	updatePath: function () {
 		var code = "";
-		for(var o of chainPath) {
-			if(code) code += " / ";
+		for (var o of chainPath) {
+			if (code) code += " / ";
 			code += '<a class="ipt-channel Link--primary color-fg-muted" href="javascript: rules.showBackPath(\'' + o.chain + '\')">' + o.chain + (code ? "" : "[" + o.table + "]") + "</a>";
 		}
 		tools.setChainPath(code);
@@ -204,9 +204,9 @@ var rules = {
 
 	showBackPath: function (name) {
 		var index = 0;
-		for(var o of chainPath) {
+		for (var o of chainPath) {
 			index++;
-			if(o.chain == name) {
+			if (o.chain == name) {
 				chainPath = chainPath.slice(0, index);
 				rules.showList(o.chain, o.table);
 				break;
@@ -214,41 +214,41 @@ var rules = {
 		}
 		rules.updatePath();
 	},
-	
+
 	remove: function (index) {
 		$.get("delete?i=" + index + "&c=" + channel + "&t=" + table, parser.parseChannels);
 		return false;
 	},
-	
+
 	insert: function () {
 		this.insertText($("#rule").val());
-		
+
 		return false;
-    },
-    
-    insertText: function (text) {
-		if(text.search(/-[A|I|R]/g) === -1) {
-			text = "-A " + channel.toLocaleUpperCase() + " " + text ;
+	},
+
+	insertText: function (text) {
+		if (text.search(/-[A|I|R]/g) === -1) {
+			text = "-A " + channel.toLocaleUpperCase() + " " + text;
 		}
 
 		text = "-t " + table + " " + text;
-        
-        for(var lan in window._settings.LANS) {
-            text = text.replace(new RegExp("(-[o|i]) " + window._settings.LANS[lan] + " ", 'g'), function(str, dir, int){
+
+		for (var lan in window._settings.LANS) {
+			text = text.replace(new RegExp("(-[o|i]) " + window._settings.LANS[lan] + " ", 'g'), function (str, dir, int) {
 				return dir + " " + lan + " ";
 			});
-        }
-        for(var port in window._settings.PORTS) {
-            text = text.replace(new RegExp("(--dport|--sport) " + window._settings.PORTS[port] + " ", 'g'), function(str, dir, _port){
+		}
+		for (var port in window._settings.PORTS) {
+			text = text.replace(new RegExp("(--dport|--sport) " + window._settings.PORTS[port] + " ", 'g'), function (str, dir, _port) {
 				return dir + " " + port + " ";
 			});
-        }
-		
+		}
+
 		text = text.replace(/\/\/(.*)/g, '-m comment --comment "$1"');
-        
-		$.post("insert?c=" + channel + "&t=" + table, {rule: text}, function(data){
-			if(data) {
-				if(data.substr(0, 1) === "[") {
+
+		$.post("insert?c=" + channel + "&t=" + table, { rule: text }, function (data) {
+			if (data) {
+				if (data.substr(0, 1) === "[") {
 					parser.parseChannels(data);
 				}
 				else {
@@ -259,15 +259,15 @@ var rules = {
 
 		return false;
 	},
-	
-	monitor: function() {
-		$.get("/mon?c=" + channel + "&t=" + table, function(data){
+
+	monitor: function () {
+		$.get("/mon?c=" + channel + "&t=" + table, function (data) {
 			var arr = JSON.parse(data);
 			var index = 0;
-			for(var i = 0; i < arr.length; i++) {
+			for (var i = 0; i < arr.length; i++) {
 				var items = arr[i].trim().replace(/[ ]+/g, ' ').split(" ");
 
-				if(i === 0) {
+				if (i === 0) {
 					pkts = 4;
 					bytes = 6;
 				}
@@ -275,22 +275,22 @@ var rules = {
 					pkts = 0;
 					bytes = 1;
 				}
-				
+
 				$("#pkts" + index).html(items[pkts]);
 				$("#bytes" + index).html(items[bytes]);
-				if(i !== 1) {
+				if (i !== 1) {
 					index++;
 				}
 			}
 		});
 	},
-	
-	addChainName: function(name, _table) {
+
+	addChainName: function (name, _table) {
 		channel = name;
 		table = _table;
-		$.post("insert?c=" + name + "&t=" + table, {rule: "-t " + table + " -N " + name.toUpperCase()}, function(data){
-			if(data) {
-				if(data.substr(0, 1) === "[") {
+		$.post("insert?c=" + name + "&t=" + table, { rule: "-t " + table + " -N " + name.toUpperCase() }, function (data) {
+			if (data) {
+				if (data.substr(0, 1) === "[") {
 					parser.parseChannels(data);
 					//$(".dropdown").append(window.tpl.customChain(name.toUpperCase()));
 					$(window.tpl.customChain(name.toUpperCase(), _table)).prependTo(".newchain");
@@ -301,18 +301,18 @@ var rules = {
 			}
 		});
 	},
-	
-	addChain: function() {
+
+	addChain: function () {
 		$(".addchain").dialog({
-			title:"Create new chain",
-			modal:true,
-			resizable:false,
+			title: "Create new chain",
+			modal: true,
+			resizable: false,
 			width: 400,
 			buttons: [
 				{
 					text: "Create",
-					click: function() {
-                        rules.addChainName($("#chainname").val(), $("#chaintable").val());
+					click: function () {
+						rules.addChainName($("#chainname").val(), $("#chaintable").val());
 						$(".addchain").dialog("close");
 					}
 				}
@@ -320,13 +320,13 @@ var rules = {
 		});
 	},
 
-	removeChain: function(obj) {
+	removeChain: function (obj) {
 		var rName = $(obj).attr("chainname");
 		var rTable = $(obj).attr("chaintable");
-		
-		$.post("insert?t=" + rTable + "&c=" + rName, {rule: "-t " + rTable + " -X " + rName.toUpperCase()}, function(data){
-			if(data) {
-				if(data.substr(0, 1) === "[") {
+
+		$.post("insert?t=" + rTable + "&c=" + rName, { rule: "-t " + rTable + " -X " + rName.toUpperCase() }, function (data) {
+			if (data) {
+				if (data.substr(0, 1) === "[") {
 					parser.parseChannels(data);
 					$(obj).parent().parent().remove();
 				}
@@ -336,11 +336,11 @@ var rules = {
 			}
 		});
 	},
-	
-	resetCounters: function() {
-		$.post("insert?t=" + table + "&c=" + channel, {rule: "-t " + table + " -Z " + channel.toUpperCase()}, function(data){
-			if(data) {
-				if(data.substr(0, 1) === "[") {
+
+	resetCounters: function () {
+		$.post("insert?t=" + table + "&c=" + channel, { rule: "-t " + table + " -Z " + channel.toUpperCase() }, function (data) {
+			if (data) {
+				if (data.substr(0, 1) === "[") {
 					parser.parseChannels(data);
 				}
 				else {
@@ -352,11 +352,11 @@ var rules = {
 };
 
 var tools = {
-    pageIndex: 1,
-    
-	save: function() {
-		$.get("/save", function(data) {
-			if(data) {
+	pageIndex: 1,
+
+	save: function () {
+		$.get("/save", function (data) {
+			if (data) {
 				showError(data);
 			}
 			else {
@@ -364,10 +364,10 @@ var tools = {
 			}
 		});
 	},
-    
-	load: function() {
-		$.get("/load", function(data) {
-			if(data) {
+
+	load: function () {
+		$.get("/load", function (data) {
+			if (data) {
 				showError(data);
 			}
 			else {
@@ -376,68 +376,68 @@ var tools = {
 			}
 		});
 	},
-    
+
 	oldIndex: -1,
-    selectPage: function(index) {
-        $("#settings-page" + tools.pageIndex).hide();
-        tools.pageIndex = index;
-        $("#settings-page" + index).show();
-		if(tools.oldIndex !== -1) {
+	selectPage: function (index) {
+		$("#settings-page" + tools.pageIndex).hide();
+		tools.pageIndex = index;
+		$("#settings-page" + index).show();
+		if (tools.oldIndex !== -1) {
 			$("#page" + tools.oldIndex).removeClass("itemselected").addClass("item");
 			$("#page" + tools.oldIndex).removeAttr("aria-current");
 		}
 		$("#page" + index).removeClass("item").addClass("itemselected");
 		$("#page" + index).attr("aria-current", "page");
 		tools.oldIndex = index;
-    },
-    
-    addLan: function() {
-        $("#lans").append(window.tpl.settingsLan("", ""));
-    },
-    
-    removeLan: function(obj) {
-        $(obj).parent().parent().remove();
-    },
-	
-    addPort: function() {
-        $("#ports").append(window.tpl.settingsPort("", ""));
-    },
-    
-	settingsDlg: function() {
+	},
+
+	addLan: function () {
+		$("#lans").append(window.tpl.settingsLan("", ""));
+	},
+
+	removeLan: function (obj) {
+		$(obj).parent().parent().remove();
+	},
+
+	addPort: function () {
+		$("#ports").append(window.tpl.settingsPort("", ""));
+	},
+
+	settingsDlg: function () {
 		$(".settings").dialog({
-			title:"Iptables settings",
-			modal:true,
-			resizable:false,
+			title: "Iptables settings",
+			modal: true,
+			resizable: false,
 			width: 600,
 			buttons: [
 				{
 					text: "Save",
-					click: function() {
-                        $(".param").each(function(index, obj){
-                            window._settings[obj.id] = $(obj).val();
-                        });
-                        window._settings.LANS = {};
-                        $(".lan").each(function(index, obj){
-                            window._settings.LANS[$(obj).children()[0].firstChild.value] = $(obj).children()[1].firstChild.value;
-                        });
+					click: function () {
+						$(".param").each(function (index, obj) {
+							window._settings[obj.id] = $(obj).val();
+						});
+						window._settings.LANS = {};
+						$(".lan").each(function (index, obj) {
+							window._settings.LANS[$(obj).children()[0].firstChild.value] = $(obj).children()[1].firstChild.value;
+						});
 						window._settings.PORTS = {};
-                        $(".port").each(function(index, obj){
-                            window._settings.PORTS[$(obj).children()[0].firstChild.value] = $(obj).children()[1].firstChild.value;
-                        });
-                        $.post("/settings?c=save", {data: JSON.stringify(window._settings)}, function(data) {
-                            if(data) {
-                                showError(data);
-                            }
-                        });
+						$(".port").each(function (index, obj) {
+							window._settings.PORTS[$(obj).children()[0].firstChild.value] = $(obj).children()[1].firstChild.value;
+						});
+						$.post("/settings?c=save", { data: JSON.stringify(window._settings) }, function (data) {
+							if (data) {
+								showError(data);
+							}
+						});
 						$(".settings").dialog("close");
-						
+
 						rules.showList(channel, table);
 					}
 				}
 			]
 		});
 	},
-	
+
 	ruleBuilder: {
 		new_proto: { def: "none", pref: " -p ", name: "Proto", list: ["none", "TCP", "UDP", "ICMP", "GRE"] },
 		new_in: { def: "", pref: " -i ", name: "Input", hint: "eth0" },
@@ -446,52 +446,53 @@ var tools = {
 		new_src: { def: "", pref: " -s ", name: "Source", hint: "10.10.0.0/16", pdef: true, sub: { new_src_port_from: { def: "", pref: " --sport ", name: "from", size: 40, sub: { new_src_port_to: { def: "", pref: ":", name: "to", size: 40 } } } } },
 		new_state: { def: "none", pref: " -m state --state ", name: "State", list: ["none", "NEW", "ESTABLISHED", "RELATED", "INVALID"] },
 		new_limit: { def: "", pref: " -m limit --limit ", name: "Limit" },
-		new_action: { def: "", pref: " -j ", name: "Action", list: ["ACCEPT", "DROP", "DNAT", "SNAT", "MARK", "LOG", "MASQUERADE", "MIRROR", "REDIRECT", "RETURN", "TOS", "TTL"],
+		new_action: {
+			def: "", pref: " -j ", name: "Action", list: ["ACCEPT", "DROP", "DNAT", "SNAT", "MARK", "LOG", "MASQUERADE", "MIRROR", "REDIRECT", "RETURN", "TOS", "TTL"],
 			asvalue: {
-				DNAT: {	new_to_destination: { def: "", pref: " --to-destination ", name: "destination"} },
-				SNAT: {	new_to_source: { def: "", pref: " --to-source ", name: "source"} },
-				MARK: {	new_set_mark: { def: "", pref: " --set-mark ", name: "mark"} },
-				REDIRECT: {	new_to_ports: { def: "", pref: " --to-ports ", name: "to ports"} },
-				TOS: {	new_tos: { def: "", pref: "  --set-tos ", name: "tos"} },
-				TTL: {	new_ttl: { def: "", pref: "  --ttl-set ", name: "ttl"} },
+				DNAT: { new_to_destination: { def: "", pref: " --to-destination ", name: "destination" } },
+				SNAT: { new_to_source: { def: "", pref: " --to-source ", name: "source" } },
+				MARK: { new_set_mark: { def: "", pref: " --set-mark ", name: "mark" } },
+				REDIRECT: { new_to_ports: { def: "", pref: " --to-ports ", name: "to ports" } },
+				TOS: { new_tos: { def: "", pref: "  --set-tos ", name: "tos" } },
+				TTL: { new_ttl: { def: "", pref: "  --ttl-set ", name: "ttl" } },
 				LOG: {
-					new_log_prefix: { def: "", pref: " --log-prefix \"", suff: "\"", name: "prefix", size: 60},
-					new_log_level: { def: "", pref: " --log-level ", name: "level", size: 40}
+					new_log_prefix: { def: "", pref: " --log-prefix \"", suff: "\"", name: "prefix", size: 60 },
+					new_log_level: { def: "", pref: " --log-level ", name: "level", size: 40 }
 				}
 			}
 		}
 	},
 
-	makeTextField: function(name, rule) {
+	makeTextField: function (name, rule) {
 		var value = '<input type="text" class="form-control input-lg" id="' + name + '"';
-		if(rule.size) {
+		if (rule.size) {
 			value += ' style="width: ' + rule.size + 'px;"';
 		}
-		if(rule.hint) {
+		if (rule.hint) {
 			value += ' placeholder="' + rule.hint + '"';
 		}
 		value += "/>";
-		if(rule.sub) {
-			for(var sub in rule.sub) {
+		if (rule.sub) {
+			for (var sub in rule.sub) {
 				value += " " + rule.sub[sub].name + " " + tools.makeTextField(sub, rule.sub[sub]);
 			}
 		}
 		return value;
 	},
-	
-	addDialogRule: function() {
+
+	addDialogRule: function () {
 
 		var text = "";
-		for(var rule in tools.ruleBuilder) {
+		for (var rule in tools.ruleBuilder) {
 			var obj = tools.ruleBuilder[rule];
 			var value = "";
-			if(obj.list) {
+			if (obj.list) {
 				value = '<select class="form-control" id="' + rule + '" onchange="tools.setAction(this);">';
-				for(var item in obj.list) {
+				for (var item in obj.list) {
 					value += '<option>' + obj.list[item] + '</option>';
 				}
 				value += '</select>';
-				if(obj.asvalue) {
+				if (obj.asvalue) {
 					value += ' <span id="' + rule + '_sub"></span>';
 				}
 			}
@@ -501,31 +502,31 @@ var tools = {
 			text += '<tr><td class="p-2"><label>' + obj.name + '<label></td><td>' + value + '</td></ts>';
 		}
 		$("#ruleTable").html(text);
-		
+
 		$("#makeRule").dialog({
-			title:"Make rule",
-			modal:true,
-			resizable:false,
+			title: "Make rule",
+			modal: true,
+			resizable: false,
 			width: 500,
 			buttons: [
 				{
 					text: "Add",
-					click: function() {
-						var maker = function(rules) {
+					click: function () {
+						var maker = function (rules) {
 							var rule = "";
-							for(var field in rules) {
+							for (var field in rules) {
 								var obj = rules[field];
 								var value = $("#" + field).val();
-								if(value !== obj.def) {
+								if (value !== obj.def) {
 									rule += obj.pref + value;
-									if(obj.suff) {
+									if (obj.suff) {
 										rule += obj.suff;
 									}
-									if(obj.asvalue) {
+									if (obj.asvalue) {
 										rule += maker(obj.asvalue[value]);
 									}
 								}
-								if(obj.sub && (obj.pdef || value !== obj.def)) {
+								if (obj.sub && (obj.pdef || value !== obj.def)) {
 									rule += maker(obj.sub);
 								}
 							}
@@ -534,23 +535,23 @@ var tools = {
 
 						var rule = maker(tools.ruleBuilder);
 						$("#rule").val(rule);
-						
+
 						$("#makeRule").dialog("close");
 					}
 				},
 				{
 					text: "Reset",
-					click: function() {
-						var reset = function(rules) {
-							for(var field in rules) {
+					click: function () {
+						var reset = function (rules) {
+							for (var field in rules) {
 								var obj = rules[field];
 								$("#" + field).val(obj.def);
-								if(obj.sub) {
+								if (obj.sub) {
 									reset(obj.sub);
 								}
-								if(obj.asvalue) {
+								if (obj.asvalue) {
 									$("#" + field).change();
-									for(var field2 in obj.asvalue) {
+									for (var field2 in obj.asvalue) {
 										reset(obj.asvalue[field2]);
 									}
 								}
@@ -562,12 +563,12 @@ var tools = {
 			]
 		});
 	},
-	
-	setAction: function(obj) {
+
+	setAction: function (obj) {
 		var id = obj.id;
-		if($("#" + id + "_sub").size() !== 0) {
+		if ($("#" + id + "_sub").size() !== 0) {
 			var text = "";
-			for(var field in tools.ruleBuilder[id].asvalue[$("#" + id).val()]) {
+			for (var field in tools.ruleBuilder[id].asvalue[$("#" + id).val()]) {
 				var obj = tools.ruleBuilder[id].asvalue[$("#" + id).val()][field];
 				text += " " + obj.name + " " + tools.makeTextField(field, obj);
 			}
@@ -575,33 +576,33 @@ var tools = {
 		}
 	},
 
-	initWS: function(hello) {
-		if(!webSocket) {
+	initWS: function (hello) {
+		if (!webSocket) {
 			var addr = window.location.toString().substr(7);
 			addr = addr.substr(0, addr.indexOf(":"));
 			addr = "ws://" + addr + ":8001";
 
 			webSocket = new WebSocket(addr);
-			webSocket.onopen = function(event) {
+			webSocket.onopen = function (event) {
 				webSocket.send(hello);
 			};
 
-			webSocket.onmessage = function(event) {
+			webSocket.onmessage = function (event) {
 				var channel = JSON.parse(event.data);
-				if(channel.name == "syslog") {
-					for(var i = 0; i < channel.data.length; i++) {
-						if(channel.data[i]) {
+				if (channel.name == "syslog") {
+					for (var i = 0; i < channel.data.length; i++) {
+						if (channel.data[i]) {
 							$("#logs").append('<div>' + channel.data[i] + '</div>');
 						}
 					}
 					$("#logs").parent().scrollTop(64536);
 				}
-				else if(channel.name == "dump") {
-					for(var i = 0; i < channel.data.length; i++) {
-						if(channel.data[i]) {
-							var text = channel.data[i].replace(/IP ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/g, function(str, ip){
+				else if (channel.name == "dump") {
+					for (var i = 0; i < channel.data.length; i++) {
+						if (channel.data[i]) {
+							var text = channel.data[i].replace(/IP ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/g, function (str, ip) {
 								return '<span class="ipt-net">' + ip + "</span>";
-							}).replace(/> ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/g, function(str, ip){
+							}).replace(/> ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/g, function (str, ip) {
 								return '> <span class="ipt-net">' + ip + "</span>";
 							});
 							$("#dump").append('<div>' + text + '</div>');
@@ -611,7 +612,7 @@ var tools = {
 				}
 			};
 
-			webSocket.onclose = function(event) {
+			webSocket.onclose = function (event) {
 				webSocket = null;
 			};
 		}
@@ -620,45 +621,45 @@ var tools = {
 		}
 	},
 
-	closeWS: function(name){
-		if(webSocket) {
+	closeWS: function (name) {
+		if (webSocket) {
 			webSocket.send(name);
 		}
 	},
-	
-	showLogs: function() {
+
+	showLogs: function () {
 		$("#syslog").dialog({
-			title:"System logs",
-			modal:false,
-			resizable:true,
+			title: "System logs",
+			modal: false,
+			resizable: true,
 			width: 800,
 			height: 400
-		}).on('dialogclose', function(event) {
-			tools.closeWS(JSON.stringify({name: "closelog"}));
+		}).on('dialogclose', function (event) {
+			tools.closeWS(JSON.stringify({ name: "closelog" }));
 		});
-		tools.initWS(JSON.stringify({name: "syslog"}));
+		tools.initWS(JSON.stringify({ name: "syslog" }));
 	},
 
-	showTCPDump: function() {
+	showTCPDump: function () {
 		$("#tcpdump").dialog({
-			title:"TCP dump",
-			modal:false,
-			resizable:true,
+			title: "TCP dump",
+			modal: false,
+			resizable: true,
 			width: 800,
 			height: 400
-		}).on('dialogclose', function(event) {
-			tools.closeWS(JSON.stringify({name: "closedump"}));
+		}).on('dialogclose', function (event) {
+			tools.closeWS(JSON.stringify({ name: "closedump" }));
 			$("#dump").html("");
 		});
 	},
 
-	dumpParams: function() {
+	dumpParams: function () {
 		$("#dump").html("");
-		tools.closeWS(JSON.stringify({name: "closedump"}));
-		tools.initWS(JSON.stringify({name: "dump", eth: $("#eth").val(), src: $("#src").val(), dst: $("#dst").val(), port: $("#port").val()}));
+		tools.closeWS(JSON.stringify({ name: "closedump" }));
+		tools.initWS(JSON.stringify({ name: "dump", eth: $("#eth").val(), src: $("#src").val(), dst: $("#dst").val(), port: $("#port").val() }));
 	},
 
-	setChainPath: function(path) {
+	setChainPath: function (path) {
 		$("#chainpath").html(path);
 	}
 };
