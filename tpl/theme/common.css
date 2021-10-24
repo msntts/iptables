@@ -9,3 +9,11 @@
 .addchain {
     display: none;
 }
+
+.info {
+    display: none;
+}
+
+.error {
+    display: none;
+}
