@@ -78,7 +78,7 @@ var parser = {
 			index++;
 		}
 
-		$("#main").append('<tr class="newrulerow"><td colspan="3">New rule:</td><td colspan="1"><form onsubmit="return rules.insert();"><input type="text" id="rule" class="ruleeditor"/></form></td><td><a href="#" onclick="return tools.addDialogRule();" title="Add rule"><img src="/img/make.png"/></a></td></tr>');
+		$("#main").append('<tr class="newrulerow"><td colspan="3" class="text-right pr-2 py-2"><label>New rule</label></td><td colspan="1" class="py-2"><form onsubmit="return rules.insert();"><input type="text" id="rule" class="ruleeditor form-control input-block"/></form></td><td class="text-center"><a href="#" onclick="return tools.addDialogRule();" title="Add rule"><i class="fas fa-plus"></i></a></td></tr>');
 	},
 	
 	makeRuleTpl: function (index, text) {
@@ -149,7 +149,7 @@ var parser = {
 			}
 			var value = rule.text();
 			this.editRuleRowText = rule.html();
-			rule.html('<input type="text" onkeyup="parser.editRuleAction(event.keyCode);" class="ruleeditor"/>').children().val(value);
+			rule.html('<input type="text" onkeyup="parser.editRuleAction(event.keyCode);" class="ruleeditor form-control input-block"/>').children().val(value);
 			rule.children().focus();
 
 			this.editRuleRow = rule;
