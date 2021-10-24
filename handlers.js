@@ -9,9 +9,7 @@ module.exports = {
 	
 	settingsDir: "/etc/iptables/config.json",
 	_settings: {
-		savePath: "/etc/iptables/rules.save",
-		theme: "Silver",
-		themes: []
+		savePath: "/etc/iptables/rules.save"
 	},
 	
 	loadSettings: function() {
@@ -177,15 +175,6 @@ module.exports = {
                 module.exports.saveSettings();
             });
 			res.end();
-		}
-		else {
-			var themes = [];
-			var items = fs.readdirSync("./tpl/theme");
-			for (var item of items) {
-				themes.push(item.substring(0, item.length-4));
-			}
-			module.exports._settings.themes = themes;
-			res.end(JSON.stringify(module.exports._settings));
 		}
 	},
 	
