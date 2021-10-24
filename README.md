@@ -1,12 +1,11 @@
 iptables WEB gui
 
-![ScreenShot](http://i.mcgl.ru/RGGJv4MAvA)
+![ScreenShot](./ScreenShot.png)
 
 ### Howto install ###
 
-In first time you need to Download and install Node.js
-
-### Howto use ###
+In first time you need to ...
+* Download and install Node.js
 * Install PAM libraries
 
   - Centos and RHEL
@@ -26,6 +25,7 @@ In first time you need to Download and install Node.js
     apt-get install libreadline-gplv2-dev
     ```
 
+### Howto use ###
 * Clone repository:
 ```bash
 git clone https://github.com/puux/iptables.git
@@ -40,16 +40,6 @@ node server.js
 ```
 * Open browser and goto http://127.0.0.1:1337/
 
-### Howto create own theme ###
+### user and password ###
 
-* cd ./tpl/styles/
-* open and change config.scss
-* compile: scss --sourcemap=none style.scss ../theme/MyTheme.css
-* select theme in Settings->Theme
-
-### Default user and password ###
-
-User: admin
-Pass: (empty)
-
-You can change this here https://github.com/puux/iptables/blob/master/handlers.js#L14
+You can sign in with Linux user account.
