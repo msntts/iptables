@@ -7,6 +7,7 @@ services:
       context: ./
     container_name: iptables-web-dev
     tty: true
+    privileged: true
     volumes:
       - ../:/root/src
     ports:
