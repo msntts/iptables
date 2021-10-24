@@ -157,10 +157,14 @@
 			
 			<div class="addchain">
 				<form>
-					<table class="main">
-						<tr><td class="cmd">Name:</td><td><input type="text" id="chainname"/></td></tr>
-						<tr><td class="cmd">Table:</td><td><select id="chaintable"><option value="filter">filter</option><option value="nat">nat</option><option value="mangle">mangle</option></select></td></tr>
-					</table>
+					<div class="col-4">
+						<label>Name</label>
+						<input type="text" id="chainname" class="form-control"/>
+					</div>
+					<div class="col-4 mt-2">
+						<label>Table</label>
+						<select id="chaintable" class="form-control"><option value="filter">filter</option><option value="nat">nat</option><option value="mangle">mangle</option></select>
+					</div>
 				</form>
 			</div>
 			<div class="dialog" id="makeRule">
