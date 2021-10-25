@@ -176,6 +176,15 @@ module.exports = {
             });
 			res.end();
 		}
+		else {
+			var themes = [];
+			var items = fs.readdirSync("./tpl/theme");
+			for (var item of items) {
+				themes.push(item.substring(0, item.length-4));
+			}
+			module.exports._settings.themes = themes;
+			res.end(JSON.stringify(module.exports._settings));
+		}
 	},
 	
 	authMe: function(req, res) {
