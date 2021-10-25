@@ -1,7 +1,6 @@
 var proc = require('child_process');
 var fs = require("fs");
 var url = require("url");
-var querystring = require("querystring");
 var pam = require('authenticate-pam');
 
 module.exports = {
@@ -50,9 +49,9 @@ module.exports = {
 	
 	showChannel: function(req, res) {
 		var query = url.parse(req.url).query;
-		var args = querystring.parse(query);
+		var args = new URLSearchParams(query);
 
-		var run = "iptables -t " + args.t + " -S " + args.c.toUpperCase();
+		var run = "iptables -t " + args.get("t") + " -S " + args.get("c").toUpperCase();
 		proc.exec(run, function(error, stdout, stderr) {
 			var arr = stdout.split("\n");
 			
@@ -63,9 +62,9 @@ module.exports = {
 	
 	deleteRule: function(req, res) {
 		var query = url.parse(req.url).query;
-		var args = querystring.parse(query);
+		var args = new URLSearchParams(query);
 		
-		proc.exec("iptables -t " + args.t + " -D " + args.c.toUpperCase() + " " + args.i, function(error, stdout, stderr) {
+		proc.exec("iptables -t " + args.get("t") + " -D " + args.get("c").toUpperCase() + " " + args.get("i"), function(error, stdout, stderr) {
 			module.exports.showChannel(req, res);
 		});
 	},
@@ -76,9 +75,9 @@ module.exports = {
 	        body += data;
 	    });
 	    req.on('end', function () {
-	        var post = querystring.parse(body);
+	        var post = new URLSearchParams(body);
 	        
-	        var rule = post['rule'];
+	        var rule = post.get('rule');
 	        console.log(rule);
 	    	proc.exec("iptables " + rule, function(error, stdout, stderr) {
 	    		if(stderr) {
@@ -93,9 +92,9 @@ module.exports = {
 	
 	monitor: function(req, res) {
 		var query = url.parse(req.url).query;
-		var args = querystring.parse(query);
+		var args = new URLSearchParams(query);
 
-		var run = "iptables -t " + args.t + " -L " + args.c.toUpperCase() + " -vn";
+		var run = "iptables -t " + args.get("t") + " -L " + args.get("c").toUpperCase() + " -vn";
 		proc.exec(run, function(error, stdout, stderr) {
 			var arr = stdout.split("\n");
 			
@@ -164,16 +163,16 @@ module.exports = {
 	
 	settings: function(req, res) {
 		var query = url.parse(req.url).query;
-		var args = querystring.parse(query);
+		var args = new URLSearchParams(query);
 		
-		if(args.c === "save") {
+		if(args.get("c") === "save") {
             var body = '';
             req.on('data', function (data) {
                 body += data;
             });
             req.on('end', function () {
-                var post = querystring.parse(body);
-                var data = post['data'];
+                var post = new URLSearchParams(body);
+                var data = post.get("data");
                 
                 module.exports._settings = JSON.parse(data);
                 module.exports.saveSettings();
@@ -202,9 +201,9 @@ module.exports = {
 				body += data;
 			});
 			req.on('end', function () {
-				var post = querystring.parse(body);
-				var login = post['login'];
-				var pass = post['pass'];
+				var post = new URLSearchParams(body);
+				var login = post.get("login");
+				var pass = post.get("pass");
 
 				pam.authenticate(login, pass, function(err) {
 					if(err) {
