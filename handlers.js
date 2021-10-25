@@ -56,6 +56,7 @@ module.exports = {
 		proc.exec(run, function(error, stdout, stderr) {
 			var arr = stdout.split("\n");
 			
+			res.setHeader("Content-Type", "text/plain");
 			res.end(JSON.stringify(arr));
 		});
 	},
@@ -98,7 +99,7 @@ module.exports = {
 		proc.exec(run, function(error, stdout, stderr) {
 			var arr = stdout.split("\n");
 			
-			res.writeHead(200, {"Cache-Control": "no-cache"});
+			res.writeHead(200, {"Cache-Control": "no-cache", "Content-Type" : "text/plain"});
 			res.end(JSON.stringify(arr));
 		});
 	},
@@ -138,6 +139,7 @@ module.exports = {
 						}
 					}
 					
+					res.setHeader("Content-Type", "text/plain");
 					res.end(JSON.stringify(new_arr));
 				});
 			});
@@ -147,6 +149,7 @@ module.exports = {
     save: function(req, res) {
         proc.exec("iptables-save > " + module.exports._settings.savePath, function(error, stdout, stderr) {
 
+			res.setHeader("Content-Type", "text/plain");
 			res.end(stderr);
 		});
     },
@@ -154,6 +157,7 @@ module.exports = {
     load: function(req, res) {
         proc.exec("iptables-restore < " + module.exports._settings.savePath, function(error, stdout, stderr) {
 
+			res.setHeader("Content-Type", "text/plain");
 			res.end(stderr);
 		});
     },
@@ -183,6 +187,8 @@ module.exports = {
 				themes.push(item.substring(0, item.length-4));
 			}
 			module.exports._settings.themes = themes;
+
+			res.setHeader("Content-Type", "text/plain");
 			res.end(JSON.stringify(module.exports._settings));
 		}
 	},
