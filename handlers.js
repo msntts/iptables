@@ -1,7 +1,7 @@
-var proc = require('child_process');
-var fs = require("fs");
-var url = require("url");
-var pam = require('authenticate-pam');
+const proc = require('child_process');
+const fs = require("fs");
+const url = require("url");
+const pam = require('authenticate-pam');
 
 module.exports = {
 	authUsers: {}, // last authentication time is stored
@@ -12,22 +12,20 @@ module.exports = {
 	},
 	
 	loadSettings: function() {
-		fs.exists(this.settingsDir, function(ex){
-			if(ex) {
-				fs.readFile(module.exports.settingsDir, [], function(err, data) {
-					// Restore new settings after load from file
-					var s = module.exports._settings;
-					module.exports._settings = JSON.parse(data);
-					for(var key in s) {
-						if(!module.exports._settings[key]) {
-							module.exports._settings[key] = s[key];
-						}
+		try {
+			fs.readFile(module.exports.settingsDir, [], function (err, data) {
+				// Restore new settings after load from file
+				var s = module.exports._settings;
+				module.exports._settings = JSON.parse(data);
+				for (var key in s) {
+					if (!module.exports._settings[key]) {
+						module.exports._settings[key] = s[key];
 					}
+				}
 
-					console.log("Load settings from " + module.exports.settingsDir);
-				});
-			}
-		});
+				console.log("Load settings from " + module.exports.settingsDir);
+			});
+		} catch (e) { /* do nothing */ }
 	},
 	
 	saveSettings: function() {
